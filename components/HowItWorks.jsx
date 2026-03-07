@@ -1,5 +1,13 @@
+"use client";
+
 import React from "react";
-import { ClipboardList, Bus, UtensilsCrossed, PartyPopper } from "lucide-react";
+import {
+  ClipboardList,
+  Bus,
+  UtensilsCrossed,
+  PartyPopper,
+  Check,
+} from "lucide-react";
 import { Button } from "./ui/Button";
 
 const steps = [
@@ -9,7 +17,7 @@ const steps = [
     title: "Fill Registration Form",
     description:
       "Enter trip details: number of students, parents, teachers, and special requirements.",
-    color: "primary",
+    color: "blue",
   },
   {
     number: "02",
@@ -17,7 +25,7 @@ const steps = [
     title: "Choose Your Bus",
     description:
       "Browse verified drivers, view bus photos, check ratings, and select the best fit.",
-    color: "sky",
+    color: "purple",
   },
   {
     number: "03",
@@ -25,7 +33,7 @@ const steps = [
     title: "Select Food Menu",
     description:
       "Pick from diverse catering options that accommodate all dietary needs.",
-    color: "accent",
+    color: "cyan",
   },
   {
     number: "04",
@@ -33,77 +41,77 @@ const steps = [
     title: "Enjoy the Trip!",
     description:
       "Relax and create unforgettable memories while we handle the logistics.",
-    color: "nature",
+    color: "green",
   },
 ];
 
-const HowItWorks = () => {
-  const getGradientClass = (color) => {
-    const gradients = {
-      primary: "gradient-hero",
-      sky: "bg-sky",
-      accent: "gradient-accent",
-      nature: "gradient-nature",
-    };
-    return gradients[color] || "gradient-hero";
+const getGradientClass = (color) => {
+  const gradients = {
+    blue: "bg-linear-to-r from-blue-500 to-blue-400",
+    purple: "bg-linear-to-r from-purple-500 to-purple-400",
+    cyan: "bg-linear-to-r from-cyan-500 to-cyan-400",
+    green: "bg-linear-to-r from-green-500 to-green-400",
   };
+  return gradients[color] || gradients.blue;
+};
 
+export default function HowItWorks() {
   return (
-    <section
-      id="how-it-works"
-      className="py-20 lg:py-32 bg-secondary/30 relative overflow-hidden"
-    >
-      {/* Background Decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+    <section id="how-it-works" className="relative py-28 bg-[#0f172a]">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* HEADER */}
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md mb-4">
+            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-sm text-white/80 font-medium">
+              Simple Process
+            </span>
+          </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-nature/10 text-nature font-medium text-sm mb-4">
-            Simple Process
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
+          <h2 className="text-4xl font-bold text-white mb-6">
             Plan Your Trip in{" "}
-            <span className="text-gradient">4 Easy Steps</span>
+            <span className="bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              4 Easy Steps
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+
+          <p className="text-white/70 text-lg">
             Our streamlined process makes organizing school trips effortless.
-            From registration to departure, we&apos;ve simplified everything.
+            From registration to departure, we handle everything.
           </p>
         </div>
 
-        {/* Steps */}
+        {/* STEPS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
               <div key={step.number} className="relative group">
-                {/* Connector Line (hidden on last item and mobile) */}
+                {/* Connector Line */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-0.5 bg-linear-to-r from-border to-transparent" />
+                  <div className="hidden lg:block absolute top-14 left-[60%] w-[80%] h-0.5 bg-linear-to-r from-white/20 to-transparent" />
                 )}
 
-                <div className="bg-card rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2 border border-border h-full">
+                {/* CARD */}
+                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-lg hover:-translate-y-2 transition-all duration-300 h-full">
                   {/* Step Number & Icon */}
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-5xl font-display font-bold text-muted/50">
+                    <span className="text-4xl font-bold text-white/50">
                       {step.number}
                     </span>
+
                     <div
-                      className={`w-14 h-14 rounded-xl ${getGradientClass(
-                        step.color,
-                      )} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                      className={`w-14 h-14 rounded-xl flex items-center justify-center shadow-lg ${getGradientClass(step.color)} transition-transform duration-300 group-hover:scale-110`}
                     >
-                      <Icon className="w-7 h-7 text-primary-foreground" />
+                      <Icon className="w-7 h-7 text-white" />
                     </div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-display font-bold text-foreground mb-3">
+                  <h3 className="text-xl font-semibold text-white mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-white/70 text-sm leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -112,15 +120,13 @@ const HowItWorks = () => {
           })}
         </div>
 
-        {/* CTA */}
+        {/* CTA BUTTON */}
         <div className="text-center">
-          <Button variant="hero" size="xl">
+          <button className="inline-block rounded-lg bg-linear-to-r from-blue-500 to-purple-600 px-8 py-3 text-white font-medium text-lg shadow-lg hover:scale-[1.03] transition-all">
             Start Planning Today
-          </Button>
+          </button>
         </div>
       </div>
     </section>
   );
-};
-
-export default HowItWorks;
+}

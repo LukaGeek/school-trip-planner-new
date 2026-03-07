@@ -11,10 +11,10 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/Button";
 
-const RegistrationPreview = () => {
-  const [students, setStudents] = useState(25);
-  const [parents, setParents] = useState(5);
-  const [teachers, setTeachers] = useState(2);
+export default function RegistrationPreview() {
+  const [students, setStudents] = useState(1);
+  const [parents, setParents] = useState(0);
+  const [teachers, setTeachers] = useState(1);
   const [destination, setDestination] = useState("sataflia");
   const [menu, setMenu] = useState("traditional");
 
@@ -36,32 +36,40 @@ const RegistrationPreview = () => {
   const selectedDestination = destinations.find((d) => d.id === destination);
   const selectedMenu = menus.find((m) => m.id === menu);
 
-  const transportCost =
-    totalPeople * (selectedDestination ? selectedDestination.price : 0);
-  const foodCost = totalPeople * (selectedMenu ? selectedMenu.price : 0);
+  const transportCost = totalPeople * (selectedDestination?.price || 0);
+  const foodCost = totalPeople * (selectedMenu?.price || 0);
   const totalCost = transportCost + foodCost;
 
   return (
-    <section id="contact" className="py-20 lg:py-32 bg-background">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-4">
-            Quick Quote
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
-            Plan Your <span className="text-gradient">School Trip</span> Now
+    <section id="contact" className="py-28 bg-[#0f172a]">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md mb-4">
+            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-sm text-white/80 font-medium">
+              Quick Quote
+            </span>
+          </div>
+
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Plan Your{" "}
+            <span className="bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              School Trip
+            </span>{" "}
+            Now
           </h2>
-          <p className="text-lg text-muted-foreground">
+
+          <p className="text-white/70 text-lg">
             Fill in your trip details and get an instant estimate. Our team will
             contact you with a detailed proposal.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Form */}
-          <div className="bg-card rounded-3xl p-8 shadow-card border border-border">
-            <h3 className="text-2xl font-display font-bold text-foreground mb-8">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 shadow-lg hover:-translate-y-2 transition-all duration-300">
+            <h3 className="text-2xl font-bold text-white mb-8">
               Trip Details
             </h3>
 
@@ -74,8 +82,8 @@ const RegistrationPreview = () => {
                   setValue: setStudents,
                   icon: GraduationCap,
                   min: 1,
-                  bg: "bg-primary/10",
-                  color: "text-primary",
+                  bg: "bg-blue-500/10",
+                  color: "text-blue-400",
                 },
                 {
                   label: "Parents",
@@ -83,8 +91,8 @@ const RegistrationPreview = () => {
                   setValue: setParents,
                   icon: Users,
                   min: 0,
-                  bg: "bg-accent/10",
-                  color: "text-accent",
+                  bg: "bg-purple-500/10",
+                  color: "text-purple-400",
                 },
                 {
                   label: "Teachers",
@@ -92,51 +100,47 @@ const RegistrationPreview = () => {
                   setValue: setTeachers,
                   icon: UserCheck,
                   min: 1,
-                  bg: "bg-nature/10",
-                  color: "text-nature",
+                  bg: "bg-green-500/10",
+                  color: "text-green-400",
                 },
-              ].map(
-                ({ label, value, setValue, icon: Icon, min, bg, color }) => (
-                  <div
-                    key={label}
-                    className="flex items-center justify-between p-4 rounded-xl bg-secondary/50 border border-border"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center`}
-                      >
-                        <Icon className={`w-5 h-5 ${color}`} />
-                      </div>
-                      <span className="font-medium text-foreground">
-                        {label}
-                      </span>
+              ].map(({ label, value, setValue, icon: Icon, min, bg, color }) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between p-4 rounded-xl bg-white/10 border border-white/20"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${bg}`}
+                    >
+                      <Icon className={`w-5 h-5 ${color}`} />
                     </div>
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => setValue(Math.max(min, value - 1))}
-                        className="w-8 h-8 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center font-bold text-foreground transition-colors"
-                      >
-                        −
-                      </button>
-                      <span className="w-12 text-center font-display font-bold text-xl">
-                        {value}
-                      </span>
-                      <button
-                        onClick={() => setValue(value + 1)}
-                        className="w-8 h-8 rounded-lg bg-primary hover:bg-primary/90 flex items-center justify-center font-bold text-primary-foreground transition-colors"
-                      >
-                        +
-                      </button>
-                    </div>
+                    <span className="font-medium text-white">{label}</span>
                   </div>
-                ),
-              )}
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setValue(Math.max(min, value - 1))}
+                      className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold text-white transition-colors"
+                    >
+                      −
+                    </button>
+                    <span className="w-12 text-center font-bold text-xl text-white">
+                      {value}
+                    </span>
+                    <button
+                      onClick={() => setValue(value + 1)}
+                      className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-400 flex items-center justify-center font-bold text-white transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Destination */}
             <div className="mb-6">
-              <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                <MapPin className="w-4 h-4 text-primary" />
+              <label className="flex items-center gap-2 text-sm font-medium text-white mb-3">
+                <MapPin className="w-4 h-4 text-blue-400" />
                 Destination
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -146,14 +150,12 @@ const RegistrationPreview = () => {
                     onClick={() => setDestination(dest.id)}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
                       destination === dest.id
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50"
+                        ? "border-blue-400 bg-blue-500/10"
+                        : "border-white/20 hover:border-blue-400/50"
                     }`}
                   >
-                    <span className="font-medium text-foreground block">
-                      {dest.name}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-medium text-white block">{dest.name}</span>
+                    <span className="text-sm text-white/70">
                       ₾{dest.price}/person
                     </span>
                   </button>
@@ -163,8 +165,8 @@ const RegistrationPreview = () => {
 
             {/* Menu */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                <Utensils className="w-4 h-4 text-accent" />
+              <label className="flex items-center gap-2 text-sm font-medium text-white mb-3">
+                <Utensils className="w-4 h-4 text-purple-400" />
                 Food Menu
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -174,16 +176,12 @@ const RegistrationPreview = () => {
                     onClick={() => setMenu(m.id)}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
                       menu === m.id
-                        ? "border-accent bg-accent/5"
-                        : "border-border hover:border-accent/50"
+                        ? "border-purple-400 bg-purple-500/10"
+                        : "border-white/20 hover:border-purple-400/50"
                     }`}
                   >
-                    <span className="font-medium text-foreground block">
-                      {m.name}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      ₾{m.price}/person
-                    </span>
+                    <span className="font-medium text-white block">{m.name}</span>
+                    <span className="text-sm text-white/70">₾{m.price}/person</span>
                   </button>
                 ))}
               </div>
@@ -191,69 +189,59 @@ const RegistrationPreview = () => {
           </div>
 
           {/* Summary */}
-          <div className="bg-linear-to-br from-primary to-sky rounded-3xl p-8 text-primary-foreground">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 shadow-lg hover:-translate-y-2 transition-all duration-300 text-white">
             <div className="flex items-center gap-3 mb-8">
-              <Calendar className="w-6 h-6" />
-              <h3 className="text-2xl font-display font-bold">Trip Summary</h3>
+              <Calendar className="w-6 h-6 text-blue-400" />
+              <h3 className="text-2xl font-bold">Trip Summary</h3>
             </div>
 
             <div className="space-y-6 mb-8">
-              <div className="flex justify-between items-center py-3 border-b border-primary-foreground/20">
+              <div className="flex justify-between items-center py-3 border-b border-white/20">
                 <span className="opacity-80">Total Participants</span>
-                <span className="font-display font-bold text-2xl">
-                  {totalPeople}
-                </span>
+                <span className="font-bold text-2xl">{totalPeople}</span>
               </div>
 
-              <div className="flex justify-between items-center py-3 border-b border-primary-foreground/20">
+              <div className="flex justify-between items-center py-3 border-b border-white/20">
                 <span className="opacity-80">Destination</span>
                 <span className="font-medium">
-                  {selectedDestination ? selectedDestination.name : "-"}
+                  {selectedDestination?.name || "-"}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center py-3 border-b border-primary-foreground/20">
+              <div className="flex justify-between items-center py-3 border-b border-white/20">
                 <span className="opacity-80">Menu Selection</span>
-                <span className="font-medium">
-                  {selectedMenu ? selectedMenu.name : "-"}
-                </span>
+                <span className="font-medium">{selectedMenu?.name || "-"}</span>
               </div>
 
-              <div className="flex justify-between items-center py-3 border-b border-primary-foreground/20">
+              <div className="flex justify-between items-center py-3 border-b border-white/20">
                 <span className="opacity-80">Transport Cost</span>
                 <span className="font-medium">₾{transportCost}</span>
               </div>
 
-              <div className="flex justify-between items-center py-3 border-b border-primary-foreground/20">
+              <div className="flex justify-between items-center py-3 border-b border-white/20">
                 <span className="opacity-80">Food Cost</span>
                 <span className="font-medium">₾{foodCost}</span>
               </div>
             </div>
 
-            <div className="bg-primary-foreground/10 rounded-2xl p-6 mb-8">
+            <div className="bg-white/10 rounded-2xl p-6 mb-8">
               <div className="flex justify-between items-center">
                 <span className="text-lg">Estimated Total</span>
-                <span className="text-4xl font-display font-bold">
-                  ₾{totalCost}
-                </span>
+                <span className="text-4xl font-bold">₾{totalCost}</span>
               </div>
               <p className="text-sm opacity-70 mt-2">
                 *Final price may vary based on specific requirements
               </p>
             </div>
 
-            <Button
-              variant="secondary"
-              size="xl"
-              className="w-full bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            <button
+              className="w-full h-[40px] rounded-lg bg-linear-to-r from-blue-500 to-purple-600 text-white font-medium text-lg hover:scale-[1.03] transition-all"
             >
               Request Detailed Quote
-            </Button>
+            </button>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default RegistrationPreview;
+}

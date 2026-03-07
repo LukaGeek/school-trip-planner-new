@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import {
   Bus,
   Utensils,
@@ -6,6 +7,7 @@ import {
   Calendar,
   Shield,
   Headphones,
+  Check,
 } from "lucide-react";
 
 const services = [
@@ -20,7 +22,6 @@ const services = [
       "Safety certifications",
       "GPS tracking",
     ],
-    color: "primary",
   },
   {
     icon: Utensils,
@@ -33,7 +34,6 @@ const services = [
       "Bulk order discounts",
       "Fresh & healthy",
     ],
-    color: "accent",
   },
   {
     icon: MapPinned,
@@ -46,7 +46,6 @@ const services = [
       "Time estimates",
       "Local guides",
     ],
-    color: "nature",
   },
 ];
 
@@ -64,85 +63,72 @@ const additionalFeatures = [
   {
     icon: Headphones,
     title: "24/7 Support",
-    description: "Help when you need it",
+    description: "Help whenever you need it",
   },
 ];
 
-const Services = () => {
-  const getColorClasses = (color) => {
-    const colors = {
-      primary: "bg-primary/10 text-primary border-primary/20",
-      accent: "bg-accent/10 text-accent border-accent/20",
-      nature: "bg-nature/10 text-nature border-nature/20",
-    };
-    return colors[color];
-  };
-
-  const getIconBgClasses = (color) => {
-    const colors = {
-      primary: "gradient-hero",
-      accent: "gradient-accent",
-      nature: "gradient-nature",
-    };
-    return colors[color];
-  };
-
+export default function Services() {
   return (
-    <section id="services" className="py-20 lg:py-32 bg-background">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-accent/10 text-accent font-medium text-sm mb-4">
-            Our Services
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
+    <section id="services" className="relative py-28 bg-[#0f172a]">
+      <div className="mx-auto max-w-7xl px-6">
+        {/* HEADER */}
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md mb-4">
+            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-sm text-white/80 font-medium">
+              Our Services
+            </span>
+          </div>
+
+          <h2 className="text-4xl font-bold text-white mb-6">
             Everything You Need for a{" "}
-            <span className="text-gradient-accent">Perfect Trip</span>
+            <span className="bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Perfect School Trip
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground">
-            From transportation to meals, we&apos;ve got every detail covered so
-            you can focus on creating memorable experiences.
+
+          <p className="text-white/70 text-lg">
+            From transportation to food and route planning, we handle every
+            detail so teachers can focus on creating unforgettable experiences
+            for students.
           </p>
         </div>
 
-        {/* Main Services */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {services.map((service, index) => {
+        {/* MAIN SERVICE CARDS */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-20">
+          {services.map((service) => {
             const Icon = service.icon;
+
             return (
               <div
                 key={service.title}
-                className="group relative bg-card rounded-2xl p-8 shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2 border border-border"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-8 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10"
               >
-                {/* Icon */}
-                <div
-                  className={`w-16 h-16 rounded-2xl ${getIconBgClasses(service.color)} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <Icon className="w-8 h-8 text-primary-foreground" />
+                {/* ICON */}
+                <div className="w-14 h-14 rounded-xl bg-linear-to-r from-blue-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg">
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
 
-                {/* Content */}
-                <h3 className="text-2xl font-display font-bold text-foreground mb-3">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground mb-6">
+
+                <p className="text-white/70 mb-6 text-sm">
                   {service.description}
                 </p>
 
-                {/* Features List */}
+                {/* FEATURES */}
                 <ul className="space-y-3">
                   {service.features.map((feature) => (
                     <li
                       key={feature}
                       className="flex items-center gap-3 text-sm"
                     >
-                      <span
-                        className={`w-6 h-6 rounded-full ${getColorClasses(service.color)} flex items-center justify-center text-xs font-bold`}
-                      >
-                        ✓
+                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500/20">
+                        <Check className="w-3.5 h-3.5 text-blue-400" />
                       </span>
-                      <span className="text-foreground">{feature}</span>
+
+                      <span className="text-white/70">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -151,21 +137,24 @@ const Services = () => {
           })}
         </div>
 
-        {/* Additional Features */}
-        <div className="bg-secondary/50 rounded-3xl p-8 lg:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* ADDITIONAL FEATURES */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-10">
+          <div className="grid md:grid-cols-3 gap-10">
             {additionalFeatures.map((feature) => {
               const Icon = feature.icon;
+
               return (
-                <div key={feature.title} className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-primary" />
+                <div key={feature.title} className="flex gap-4 items-start">
+                  <div className="w-11 h-11 rounded-lg bg-linear-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
+
                   <div>
-                    <h4 className="font-display font-bold text-foreground mb-1">
+                    <h4 className="font-semibold text-white mb-1">
                       {feature.title}
                     </h4>
-                    <p className="text-sm text-muted-foreground">
+
+                    <p className="text-sm text-white/70">
                       {feature.description}
                     </p>
                   </div>
@@ -177,6 +166,4 @@ const Services = () => {
       </div>
     </section>
   );
-};
-
-export default Services;
+}

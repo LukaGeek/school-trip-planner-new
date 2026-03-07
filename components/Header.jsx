@@ -16,73 +16,75 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-white/70 backdrop-blur-xl dark:bg-black/40">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex h-16 items-center justify-between md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl gradient-hero flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
-              <Bus className="w-5 h-5 text-primary-foreground" />
+          <Link href="/" prefetch className="flex items-center gap-3 group">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 via-indigo-500 to-purple-600 shadow-lg transition group-hover:scale-105">
+              <Bus className="h-5 w-5 text-white" />
             </div>
-            <div className="hidden sm:block">
-              <span className="text-lg font-display font-bold text-foreground">
-                SchoolTrip
-              </span>
-              <span className="text-lg font-display font-bold text-gradient">
+
+            <span className="hidden text-lg font-bold sm:block">
+              <span className="text-foreground">SchoolTrip</span>
+              <span className="bg-linear-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 .ge
               </span>
-            </div>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-muted-foreground hover:text-foreground font-medium transition-colors duration-200"
+                className="relative text-sm font-medium text-muted-foreground transition hover:text-foreground"
               >
                 {link.label}
+
+                {/* hover underline */}
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-linear-to-r from-blue-500 to-purple-600 transition-all duration-300 hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button variant="hero" size="lg">
+          {/* CTA */}
+          <div className="hidden md:block">
+            <Button className="bg-linear-to-r from-blue-500 to-purple-600 text-white shadow-md transition hover:scale-105 hover:shadow-lg">
               Plan Your Trip
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-foreground"
-            aria-label="Toggle menu"
+            className="rounded-lg p-2 transition hover:bg-muted md:hidden"
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="h-6 w-6 text-foreground" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6 text-foreground" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in">
-            <nav className="flex flex-col gap-4">
+          <div className="animate-in fade-in slide-in-from-top-2 mt-4 rounded-2xl border border-white/20 bg-white/90 p-6 shadow-xl backdrop-blur dark:bg-black/80 md:hidden">
+            <nav className="flex flex-col gap-5">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
-                  className="text-muted-foreground hover:text-foreground font-medium py-2 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
+                  className="text-muted-foreground transition hover:text-foreground"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
-              <Button variant="hero" size="lg" className="mt-2">
+
+              <Button className="mt-3 bg-linear-to-r from-blue-500 to-purple-600 text-white">
                 Plan Your Trip
               </Button>
             </nav>

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Bus,
@@ -10,13 +12,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const Footer = () => {
+export default function Footer() {
   const footerLinks = {
     company: [
       { label: "About Us", href: "#" },
       { label: "Our Team", href: "#" },
       { label: "Careers", href: "#" },
-      { label: "Contact", href: "contact" },
+      { label: "Contact", href: "#contact" },
     ],
     services: [
       { label: "Bus Booking", href: "#services" },
@@ -33,26 +35,26 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-primary-foreground">
+    <footer className="bg-[#0f172a] text-white relative">
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center">
-                <Bus className="w-6 h-6 text-primary-foreground" />
+              <div className="w-12 h-12 rounded-xl bg-linear-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                <Bus className="w-6 h-6 text-white" />
               </div>
               <div>
-                <span className="text-xl font-display font-bold">
+                <span className="text-xl font-bold font-display">
                   SchoolTrip
                 </span>
-                <span className="text-xl font-display font-bold text-accent">
+                <span className="text-xl font-bold font-display text-blue-400">
                   .ge
                 </span>
               </div>
             </Link>
-            <p className="text-primary-foreground/70 mb-6 max-w-sm leading-relaxed">
+            <p className="text-white/70 mb-6 max-w-sm leading-relaxed">
               Georgia&apos;s premier platform for organizing safe, educational,
               and memorable school trips. Trusted by hundreds of schools
               nationwide.
@@ -62,19 +64,19 @@ const Footer = () => {
             <div className="space-y-3">
               <a
                 href="tel:+995555123456"
-                className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
+                className="flex items-center gap-3 text-white/70 hover:text-blue-400 transition-colors"
               >
                 <Phone className="w-5 h-5" />
                 +995 555 123 456
               </a>
               <a
                 href="mailto:info@schooltrip.ge"
-                className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
+                className="flex items-center gap-3 text-white/70 hover:text-blue-400 transition-colors"
               >
                 <Mail className="w-5 h-5" />
                 info@schooltrip.ge
               </a>
-              <div className="flex items-center gap-3 text-primary-foreground/70">
+              <div className="flex items-center gap-3 text-white/70">
                 <MapPin className="w-5 h-5" />
                 Tbilisi, Georgia
               </div>
@@ -82,95 +84,50 @@ const Footer = () => {
           </div>
 
           {/* Links Columns */}
-          <div>
-            <h4 className="font-display font-bold text-lg mb-6">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-primary-foreground/70 hover:text-accent transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold text-lg mb-6">Services</h4>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-primary-foreground/70 hover:text-accent transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold text-lg mb-6">
-              Destinations
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.destinations.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-primary-foreground/70 hover:text-accent transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {Object.entries(footerLinks).map(([section, links]) => (
+            <div key={section}>
+              <h4 className="font-bold text-lg mb-6">
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </h4>
+              <ul className="space-y-3">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-white/70 hover:text-blue-400 transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-primary-foreground/10">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-primary-foreground/50 text-sm">
-              © {new Date().getFullYear()} SchoolTrip.ge. All rights reserved.
-            </p>
+      <div className="border-t border-white/10">
+        <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-white/50 text-sm">
+            © {new Date().getFullYear()} SchoolTrip.ge. All rights reserved.
+          </p>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
+          {/* Social Links */}
+          <div className="flex items-center gap-4">
+            {[Facebook, Instagram, Youtube].map((Icon, idx) => (
               <Link
+                key={idx}
                 href="#"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
-                aria-label="Facebook"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-linear-to-r from-blue-400 to-purple-500 flex items-center justify-center transition-all"
+                aria-label={Icon.name}
               >
-                <Facebook className="w-5 h-5" />
+                <Icon className="w-5 h-5 text-white" />
               </Link>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-            </div>
+            ))}
           </div>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
