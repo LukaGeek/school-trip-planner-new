@@ -1,14 +1,17 @@
 // app/api/chatbase-token/route.ts
-import { , NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 export async function GET(req) {
   // Replace this with your actual user fetching logic
-  const user = await getSignedInUser(); 
+  const user = await getSignedInUser();
 
   const secret = process.env.CHATBOT_IDENTITY_SECRET;
   if (!secret) {
-    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Server misconfigured" },
+      { status: 500 },
+    );
   }
 
   const token = jwt.sign(
@@ -17,7 +20,7 @@ export async function GET(req) {
       email: user.email,
     },
     secret,
-    { expiresIn: '1h' }
+    { expiresIn: "1h" },
   );
 
   return NextResponse.json({ token });
@@ -25,8 +28,5 @@ export async function GET(req) {
 
 // Mock function — replace with your auth logic
 async function getSignedInUser() {
-  return {
-    id: '12345',
-    email: 'lukalinchiki0@gmail.com',
-  };
+  return console.log("User is not signed");
 }

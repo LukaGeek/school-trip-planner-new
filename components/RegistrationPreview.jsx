@@ -9,7 +9,8 @@ import {
   Utensils,
   Calendar,
 } from "lucide-react";
-import { Button } from "./ui/Button";
+import { useMutation } from "@apollo/client/react";
+import { CREATE_TRIP_REQUEST } from "@/graphql/mutations";
 
 export default function RegistrationPreview() {
   const [students, setStudents] = useState(1);
@@ -17,6 +18,8 @@ export default function RegistrationPreview() {
   const [teachers, setTeachers] = useState(1);
   const [destination, setDestination] = useState("sataflia");
   const [menu, setMenu] = useState("traditional");
+
+  const [createTripRequest, { loading }] = useMutation(CREATE_TRIP_REQUEST);
 
   const destinations = [
     { id: "sataflia", name: "Sataflia", price: 15 },
@@ -39,6 +42,26 @@ export default function RegistrationPreview() {
   const transportCost = totalPeople * (selectedDestination?.price || 0);
   const foodCost = totalPeople * (selectedMenu?.price || 0);
   const totalCost = transportCost + foodCost;
+
+  async function handleSubmit() {
+    try {
+      await createTripRequest({
+        variables: {
+          students,
+          parents,
+          teachers,
+          destination,
+          menu,
+          total: totalCost,
+        },
+      });
+
+      alert("Trip request sent!");
+    } catch (error) {
+      console.error(error);
+      alert("Error sending request");
+    }
+  }
 
   return (
     <section id="contact" className="py-28 bg-[#0f172a]">
@@ -69,9 +92,7 @@ export default function RegistrationPreview() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Form */}
           <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 shadow-lg hover:-translate-y-2 transition-all duration-300">
-            <h3 className="text-2xl font-bold text-white mb-8">
-              Trip Details
-            </h3>
+            <h3 className="text-2xl font-bold text-white mb-8">Trip Details</h3>
 
             {/* Participants */}
             <div className="space-y-6 mb-8">
@@ -103,38 +124,40 @@ export default function RegistrationPreview() {
                   bg: "bg-green-500/10",
                   color: "text-green-400",
                 },
-              ].map(({ label, value, setValue, icon: Icon, min, bg, color }) => (
-                <div
-                  key={label}
-                  className="flex items-center justify-between p-4 rounded-xl bg-white/10 border border-white/20"
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${bg}`}
-                    >
-                      <Icon className={`w-5 h-5 ${color}`} />
+              ].map(
+                ({ label, value, setValue, icon: Icon, min, bg, color }) => (
+                  <div
+                    key={label}
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/10 border border-white/20"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${bg}`}
+                      >
+                        <Icon className={`w-5 h-5 ${color}`} />
+                      </div>
+                      <span className="font-medium text-white">{label}</span>
                     </div>
-                    <span className="font-medium text-white">{label}</span>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setValue(Math.max(min, value - 1))}
+                        className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold text-white transition-colors"
+                      >
+                        −
+                      </button>
+                      <span className="w-12 text-center font-bold text-xl text-white">
+                        {value}
+                      </span>
+                      <button
+                        onClick={() => setValue(value + 1)}
+                        className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-400 flex items-center justify-center font-bold text-white transition-colors"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => setValue(Math.max(min, value - 1))}
-                      className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold text-white transition-colors"
-                    >
-                      −
-                    </button>
-                    <span className="w-12 text-center font-bold text-xl text-white">
-                      {value}
-                    </span>
-                    <button
-                      onClick={() => setValue(value + 1)}
-                      className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-400 flex items-center justify-center font-bold text-white transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
 
             {/* Destination */}
@@ -154,7 +177,9 @@ export default function RegistrationPreview() {
                         : "border-white/20 hover:border-blue-400/50"
                     }`}
                   >
-                    <span className="font-medium text-white block">{dest.name}</span>
+                    <span className="font-medium text-white block">
+                      {dest.name}
+                    </span>
                     <span className="text-sm text-white/70">
                       ₾{dest.price}/person
                     </span>
@@ -180,8 +205,12 @@ export default function RegistrationPreview() {
                         : "border-white/20 hover:border-purple-400/50"
                     }`}
                   >
-                    <span className="font-medium text-white block">{m.name}</span>
-                    <span className="text-sm text-white/70">₾{m.price}/person</span>
+                    <span className="font-medium text-white block">
+                      {m.name}
+                    </span>
+                    <span className="text-sm text-white/70">
+                      ₾{m.price}/person
+                    </span>
                   </button>
                 ))}
               </div>
@@ -235,9 +264,11 @@ export default function RegistrationPreview() {
             </div>
 
             <button
-              className="w-full h-[40px] rounded-lg bg-linear-to-r from-blue-500 to-purple-600 text-white font-medium text-lg hover:scale-[1.03] transition-all"
+              onClick={handleSubmit}
+              disabled={loading}
+              className="w-[50%] h-[5%] items-center text-center rounded-lg bg-linear-to-r from-blue-500 to-purple-600 text-white font-medium text-lg hover:scale-[1.03] transition-all"
             >
-              Request Detailed Quote
+              {loading ? "Sending..." : "Request Detailed Quote"}
             </button>
           </div>
         </div>

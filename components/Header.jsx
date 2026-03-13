@@ -4,6 +4,7 @@ import { Bus, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "./ui/Button";
+import SignInSession from "@/app/components/SignInSession";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,6 +91,9 @@ export default function Header() {
             </nav>
           </div>
         )}
+        <div className="relative flex items-center">
+          <SignInSession />
+        </div>
       </div>
     </header>
   );

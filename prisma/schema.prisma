@@ -11,10 +11,52 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
-model Test {
-  id     String    @id @default(auto()) @map("_id") @db.ObjectId 
-  test   String
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String?  @unique
+  password String
+}
+
+model GoogleUser {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  token_id String? @unique
+  name  String
+  email String? @unique
+  image String
+}
+
+model FacebookUser {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  token_id String? @unique
+  name  String
+  email String? @unique
+  image String
+}
+
+model WhitelistedUser {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  email String? @unique
+}
+
+model TransportDriver {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String?  @unique
+  password String
+}
+
+model TripRequest {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  students    Int
+  parents     Int
+  teachers    Int
+  destination String
+  menu        String
+  total       Int
+  createdAt   DateTime @default(now())
 }
